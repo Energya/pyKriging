@@ -1,10 +1,10 @@
-
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 __author__ = 'chrispaulson'
 import numpy as np
 import scipy
 from scipy.optimize import minimize
-from .matrixops import matrixops
+from pyKriging.matrixops import matrixops
 import copy
 from matplotlib import pyplot as plt
 import pylab
@@ -168,7 +168,7 @@ class regression_kriging(matrixops):
             self.regupdatePsi()
         except Exception as err:
             pass
-            # print Exception, err
+            # print(Exception, err)
             # raise Exception("bad params")
 
     def predict(self, X, norm=True):
@@ -191,7 +191,7 @@ class regression_kriging(matrixops):
         X = copy.deepcopy(X)
         if norm:
             X = self.normX(X)
-        # print X, self.predict_normalized(X), self.inversenormy(self.predict_normalized(X))
+        # print(X, self.predict_normalized(X), self.inversenormy(self.predict_normalized(X)))
         return self.predicterr_normalized(X)
 
     def expimp(self, x):
@@ -445,8 +445,8 @@ class regression_kriging(matrixops):
                 self.regneglikelihood()
                 f = self.NegLnLike
             except Exception as e:
-                # print 'Failure in NegLNLike, failing the run'
-                # print Exception, e
+                # print('Failure in NegLNLike, failing the run')
+                # print(Exception, e)
                 f = 10000
             fitness.append(f)
         return fitness
@@ -467,8 +467,8 @@ class regression_kriging(matrixops):
             self.regneglikelihood()
             f = self.NegLnLike
         except Exception as e:
-            # print 'Failure in NegLNLike, failing the run'
-            # print Exception, e
+            # print('Failure in NegLNLike, failing the run')
+            # print(Exception, e)
             f = 10000
         return f
 

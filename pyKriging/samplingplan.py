@@ -1,3 +1,5 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 __author__ = 'chrispaulson'
 import numpy as np
 import math as m
@@ -289,8 +291,8 @@ class samplingplan():
 
         #thats how two arrays are compared in their sorted form
         v = np.sort(X1) == np.sort(X2)
-        if 	v.all() == True:#if True, then the designs are the same
-    #    if np.array_equal(X1,X2) == True:
+        #    if np.array_equal(X1,X2) == True:
+        if v.all():  # if True, then the designs are the same
             return 0
         else:
             #calculate the distance and multiplicity arrays
@@ -317,11 +319,11 @@ class samplingplan():
             #c(i)=0 otherwise
             c = np.zeros(m)
             for i in range(m):
-                if np.greater(V1[i],V2[i]) == True:
+                if np.greater(V1[i],V2[i]):
                     c[i] = 1
-                elif np.less(V1[i],V2[i]) == True:
+                elif np.less(V1[i],V2[i]):
                     c[i] = 2
-                elif np.equal(V1[i],V2[i]) == True:
+                elif np.equal(V1[i],V2[i]):
                     c[i] = 0
 
             #If the plans are not identical but have the same space-filling
@@ -338,11 +340,11 @@ class samplingplan():
 
 
 if __name__=='__main__':
-    # print fullfactorial2d(2)
-    # print fullfactorial3d(2)
-    # print fullfactorial4d(2)
-    # print fullfactorial5d(2)
-    # print optimalLHC()
+    # print(fullfactorial2d(2))
+    # print(fullfactorial3d(2))
+    # print(fullfactorial4d(2))
+    # print(fullfactorial5d(2))
+    # print(optimalLHC())
 
     sp = samplingplan(k=2)
     print(sp.fullfactorial())
