@@ -1,16 +1,16 @@
-
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 __author__ = 'chrispaulson'
 import numpy as np
 import scipy
 from scipy.optimize import minimize
-from .matrixops import matrixops
+from pyKriging.matrixops import matrixops
 import copy
 from matplotlib import pyplot as plt
 import pylab
 
 from mpl_toolkits.mplot3d import axes3d
-from pyKriging import samplingplan
+from pyKriging.samplingplan import samplingplan
 import inspyred
 from random import Random
 from time import time
@@ -33,7 +33,7 @@ class kriging(matrixops):
         self.normRange = []
         self.ynormRange = []
         self.normalizeData()
-        self.sp = samplingplan.samplingplan(self.k)
+        self.sp = samplingplan(self.k)
         #self.updateData()
         #self.updateModel()
 
@@ -82,7 +82,7 @@ class kriging(matrixops):
         '''
         X = copy.deepcopy(X)
         if type(X) is np.float64:
-            # print self.normRange
+            # print(self.normRange)
             return np.array( (X - self.normRange[0][0]) / float(self.normRange[0][1] - self.normRange[0][0]) )
         else:
             for i in range(self.k):
@@ -122,7 +122,7 @@ class kriging(matrixops):
         for i in range(self.k):
             self.normRange.append([min(self.X[:, i]), max(self.X[:, i])])
 
-        # print self.X
+        # print(self.X)
         for i in range(self.n):
             self.X[i] = self.normX(self.X[i])
 
@@ -174,7 +174,7 @@ class kriging(matrixops):
             self.updatePsi()
         except Exception as err:
             #pass
-            # print Exception, err
+            # print(Exception, err)
             raise Exception("bad params")
 
     def predict(self, X):
@@ -195,7 +195,7 @@ class kriging(matrixops):
         '''
         X = copy.deepcopy(X)
         X = self.normX(X)
-        # print X, self.predict_normalized(X), self.inversenormy(self.predict_normalized(X))
+        # print(X, self.predict_normalized(X), self.inversenormy(self.predict_normalized(X)))
         return self.predicterr_normalized(X)
 
     def expimp(self, x):
@@ -445,8 +445,8 @@ class kriging(matrixops):
                 self.neglikelihood()
                 f = self.NegLnLike
             except Exception as e:
-                # print 'Failure in NegLNLike, failing the run'
-                # print Exception, e
+                # print('Failure in NegLNLike, failing the run')
+                # print(Exception, e)
                 f = 10000
             fitness.append(f)
         return fitness
@@ -466,8 +466,8 @@ class kriging(matrixops):
             self.neglikelihood()
             f = self.NegLnLike
         except Exception as e:
-            # print 'Failure in NegLNLike, failing the run'
-            # print Exception, e
+            # print('Failure in NegLNLike, failing the run')
+            # print(Exception, e)
             f = 10000
         return f
 
