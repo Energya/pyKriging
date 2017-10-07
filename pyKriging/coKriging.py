@@ -1,3 +1,5 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 __author__ = 'cpaulson'
 
 import numpy as np
@@ -114,9 +116,9 @@ class coKriging():
         self.PsicXe = np.zeros((self.ne,self.ne), dtype=np.float)
         self.PsicXcXe = np.zeros((self.nc,self.ne), dtype=np.float)
         #
-        # print self.thetac
-        # print self.pc
-        # print self.distanceXc
+        # print(self.thetac)
+        # print(self.pc)
+        # print(self.distanceXc)
         newPsicXc = np.exp(-np.sum(self.thetac*np.power(self.distanceXc,self.pc), axis=2))
         print(newPsicXc[0])
         self.PsicXc = np.triu(newPsicXc,1)
@@ -196,10 +198,10 @@ def fc(X):
 def fe(X):
     return np.power(X[:,0], 2) + np.power(X[:,1], 2)
 
-if __name__=='__main__':
-    from . import samplingplan
+if __name__ == '__main__':
+    from pyKriging.samplingplan import samplingplan
     import random
-    sp = samplingplan.samplingplan(2)
+    sp = samplingplan(2)
     X = sp.optimallhc(20)
     Xe = np.array( random.sample(X, 6) )
 
