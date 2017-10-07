@@ -1,8 +1,9 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy as np
 from numpy.matlib import rand,zeros,ones,empty,eye
 import scipy
-class matrixops():
+class matrixops:
 
     def __init__(self):
         self.LnDetPsi = None

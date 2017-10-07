@@ -1,3 +1,5 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 __author__ = 'chrispaulson'
 import dill as pickle
 import numpy as np
@@ -5,7 +7,7 @@ from copy import deepcopy
 def norm(x):
     # x = np.array(x, dtype=float)
     # return ((x-min(x))/(max(x)-min(x)))
-    x =  ((x)/(max(x)-min(x)))
+    x = (x/(max(x)-min(x)))
     return x-min(x)
 
 def saveModel(model, filePath):
@@ -30,4 +32,4 @@ def splitArrays(krigeModel, q=5):
         yield trainX, trainy, testX, testy
 
 def mse(actual, predicted):
-    return ((actual - predicted) ** 2)
+    return (actual - predicted) ** 2

@@ -1,4 +1,5 @@
-﻿
+﻿from __future__ import absolute_import, division, print_function, unicode_literals
+
 import numpy as np
 
 class testfunctions():
@@ -139,7 +140,7 @@ class testfunctions():
                 sum = sum + new
 
             y.append(sum/2.)
-        return  np.array(y)
+        return np.array(y)
 
     def stybtang_norm(self,X):
         try:
@@ -157,7 +158,7 @@ class testfunctions():
                 sum = sum + new
 
             y.append(sum/2.)
-        return  np.array(y)
+        return np.array(y)
 
     def curretal88exp(self,X):
         try:
@@ -171,8 +172,8 @@ class testfunctions():
         fact2 = 2300*np.power(x1,3) + 1900*np.power(x1,2) + 2092*x1 + 60
         fact3 = 100*np.power(x1,3) + 500*np.power(x1,2) + 4*x1 + 20
 
-        return (fact1 * fact2/fact3)
-        
+        return fact1 * fact2/fact3
+
     def cosine(self, X):
         try:
             X.shape[1]
