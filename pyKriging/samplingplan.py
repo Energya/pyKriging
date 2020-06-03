@@ -106,8 +106,7 @@ class samplingplan():
 
     def fullfactorial(self, ppd=5):
         ix = (slice(0, 1, ppd*1j),) * self.k
-        a = np.mgrid[ix].reshape(self.k, ppd**self.k).T
-        return a
+        return np.mgrid[ix].reshape(self.k, ppd**self.k).T
 
     def mmsort(self,X3D,p=1):
         """
@@ -131,14 +130,12 @@ class samplingplan():
 
         while swap_flag == 1:
             swap_flag = 0
-            i = 1
-            while i<=len(Index)-2:
+            for i in range(1, len(Index)-2 + 1):
                 if self.mm(X3D[:,:,Index[i]],X3D[:,:,Index[i+1]],p) == 2:
                     arrbuffer=Index[i]
                     Index[i] = Index[i+1]
                     Index[i+1] = arrbuffer
                     swap_flag=1
-                i = i + 1
             return Index
 
 
@@ -159,7 +156,7 @@ class samplingplan():
         X_pert = X.copy()
         [n,k] = np.shape(X_pert)
 
-        for pert_count in range(0,PertNum):
+        for _ in range(PertNum):
             col = int(m.floor(np.random.rand(1)*k))
 
             #Choosing two distinct random points
@@ -193,7 +190,7 @@ class samplingplan():
 
         leveloff = m.floor(0.85*iterations)
 
-        for it in range(0,iterations):
+        for it in range(iterations):
             if it < leveloff:
                 mutations = int(round(1+(0.5*n-1)*(leveloff-it)/(leveloff-1)))
             else:
@@ -202,7 +199,7 @@ class samplingplan():
             X_improved  = X_best
             Phi_improved = Phi_best
 
-            for offspring in range(0,population):
+            for _ in range(population):
                 X_try = self.perturb(X_best, mutations)
                 Phi_try = self.mmphi(X_try, q)
 
@@ -292,12 +289,14 @@ class samplingplan():
         #thats how two arrays are compared in their sorted form
         v = np.sort(X1) == np.sort(X2)
         #    if np.array_equal(X1,X2) == True:
-        if v.all():  # if True, then the designs are the same
+        if v.all():    # if True, then the designs are the same
             return 0
         else:
             #calculate the distance and multiplicity arrays
-            [J1 , d1] = self.jd(X1,p);m1=len(d1)
-            [J2 , d2] = self.jd(X2,p);m2=len(d2)
+            [J1 , d1] = self.jd(X1,p)
+            m1=len(d1)
+            [J2 , d2] = self.jd(X2,p)
+            m2=len(d2)
 
             #blend the distance and multiplicity arrays together for
             #comparison according to definition 1.2B. Note the different
@@ -327,7 +326,7 @@ class samplingplan():
                     c[i] = 0
 
             #If the plans are not identical but have the same space-filling
-            #properties
+                    #properties
             if sum(c) == 0:
                 return 0
             else:
@@ -335,7 +334,7 @@ class samplingplan():
                 #is the first non-zero element of c
                 i = 0
                 while c[i] == 0:
-                    i = i+1
+                    i += 1
                 return c[i]
 
 

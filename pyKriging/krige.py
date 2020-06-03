@@ -208,7 +208,7 @@ class kriging(matrixops):
         y_min = np.min(self.y)
         if S <= 0.:
             EI = 0.
-        elif S > 0.:
+        else:
             EI_one = ((y_min - self.predict_normalized(x)) * (0.5 + 0.5*m.erf((
                       1./np.sqrt(2.))*((y_min - self.predict_normalized(x)) /
                                        S))))
@@ -223,7 +223,7 @@ class kriging(matrixops):
         y_min = np.min(self.y)
         if S <= 0.:
             EI = 0.
-        elif S > 0.:
+        else:
             EI_one = w*((y_min - self.predict_normalized(x)) * (0.5 +
                         0.5*m.erf((1./np.sqrt(2.))*((y_min -
                                   self.predict_normalized(x)) / S))))
@@ -240,10 +240,7 @@ class kriging(matrixops):
         :param args: args from the optimizer
         :return fitness: An array of evaluated MSE values for the candidate population
         '''
-        fitness = []
-        for entry in candidates:
-            fitness.append(-1 * self.predicterr_normalized(entry))
-        return fitness
+        return [-1 * self.predicterr_normalized(entry) for entry in candidates]
 
     def infill_objective_ei(self,candidates, args):
         '''
@@ -252,10 +249,7 @@ class kriging(matrixops):
         :param args: args from the optimizer
         :return fitness: An array of evaluated Expected Improvement values for the candidate population
         '''
-        fitness = []
-        for entry in candidates:
-            fitness.append(-1 * self.expimp(entry))
-        return fitness
+        return [-1 * self.expimp(entry) for entry in candidates]
 
     def infill(self, points, method='error', addPoint=True):
         '''
@@ -317,10 +311,10 @@ class kriging(matrixops):
         '''
         size = args.get('num_inputs', None)
         bounder = args["_ec"].bounder
-        chromosome = []
-        for lo, hi in zip(bounder.lower_bound, bounder.upper_bound):
-            chromosome.append(random.uniform(lo, hi))
-        return chromosome
+        return [
+            random.uniform(lo, hi)
+            for lo, hi in zip(bounder.lower_bound, bounder.upper_bound)
+        ]
 
     def no_improvement_termination(self, population, num_generations, num_evaluations, args):
         """Return True if the best fitness does not change for a number of generations of if the max number

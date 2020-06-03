@@ -41,22 +41,23 @@ class regression_kriging(matrixops):
         self.pmax = 2
 
         # Setup functions for tracking history
-        self.history = {}
-        self.history['points'] = []
-        self.history['neglnlike'] = []
-        self.history['theta'] = []
-        self.history['p'] = []
-        self.history['rsquared'] = [0]
-        self.history['adjrsquared'] = [0]
-        self.history['chisquared'] = [1000]
-        self.history['lastPredictedPoints'] = []
+        self.history = {
+            'points': [],
+            'neglnlike': [],
+            'theta': [],
+            'p': [],
+            'rsquared': [0],
+            'adjrsquared': [0],
+            'chisquared': [1000],
+            'lastPredictedPoints': [],
+        }
+
         if testPoints:
             self.history['pointData'] = []
             self.testPoints = self.sp.rlh(testPoints)
 
             for point in self.testPoints:
-                testPrimitive = {}
-                testPrimitive['point'] = point
+                testPrimitive = {'point': point}
                 if self.testfunction:
                     testPrimitive['actual'] = self.testfunction(point)[0]
                 else:
@@ -204,7 +205,7 @@ class regression_kriging(matrixops):
         y_min = np.min(self.y)
         if S <= 0.:
             EI = 0.
-        elif S > 0.:
+        else:
             EI_one = ((y_min - self.predict_normalized(x)) * (0.5 + 0.5*m.erf((
                       1./np.sqrt(2.))*((y_min - self.predict_normalized(x)) /
                                        S))))
@@ -219,7 +220,7 @@ class regression_kriging(matrixops):
         y_min = np.min(self.y)
         if S <= 0.:
             EI = 0.
-        elif S > 0.:
+        else:
             EI_one = w*((y_min - self.predict_normalized(x)) * (0.5 +
                         0.5*m.erf((1./np.sqrt(2.))*((y_min -
                                   self.predict_normalized(x)) / S))))
@@ -236,10 +237,7 @@ class regression_kriging(matrixops):
         :param args: args from the optimizer
         :return fitness: An array of evaluated MSE values for the candidate population
         '''
-        fitness = []
-        for entry in candidates:
-            fitness.append(-1 * self.predicterr_normalized(entry))
-        return fitness
+        return [-1 * self.predicterr_normalized(entry) for entry in candidates]
 
     def infill_objective_ei(self,candidates, args):
         '''
@@ -248,10 +246,7 @@ class regression_kriging(matrixops):
         :param args: args from the optimizer
         :return fitness: An array of evaluated Expected Improvement values for the candidate population
         '''
-        fitness = []
-        for entry in candidates:
-            fitness.append(-1 * self.expimp(entry))
-        return fitness
+        return [-1 * self.expimp(entry) for entry in candidates]
 
     def infill(self, points, method='error', addPoint=True):
         '''
@@ -313,10 +308,10 @@ class regression_kriging(matrixops):
         '''
         size = args.get('num_inputs', None)
         bounder = args["_ec"].bounder
-        chromosome = []
-        for lo, hi in zip(bounder.lower_bound, bounder.upper_bound):
-            chromosome.append(random.uniform(lo, hi))
-        return chromosome
+        return [
+            random.uniform(lo, hi)
+            for lo, hi in zip(bounder.lower_bound, bounder.upper_bound)
+        ]
 
 
     def no_improvement_termination(self, population, num_generations, num_evaluations, args):
@@ -400,10 +395,10 @@ class regression_kriging(matrixops):
             newValues = entry.candidate
             preLOP = copy.deepcopy(newValues)
             locOP_bounds = []
-            for i in range(self.k):
+            for _ in range(self.k):
                 locOP_bounds.append( [self.thetamin, self.thetamax] )
 
-            for i in range(self.k):
+            for _ in range(self.k):
                 locOP_bounds.append( [self.pmin, self.pmax] )
             locOP_bounds.append( [0,1] )
 

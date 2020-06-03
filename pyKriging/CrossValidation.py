@@ -100,8 +100,8 @@ class Cross_Validation():
             ax1 = fig.add_subplot(1, 2, 1)
             ax1.scatter([i for i in range(1, self.n+1)], self.scvr, alpha=0.5,
                         edgecolor='black', facecolor='b', linewidth=2.)
-            ax1.plot([i for i in range(0, self.n+3)], [3]*(self.n+3), 'r')
-            ax1.plot([i for i in range(0, self.n+3)], [-3]*(self.n+3), 'r')
+            ax1.plot([i for i in range(self.n+3)], [3]*(self.n+3), 'r')
+            ax1.plot([i for i in range(self.n+3)], [-3]*(self.n+3), 'r')
             ax1.set_xlim(0, self.n+2)
             ax1.set_ylim(-4, 4)
             ax1.set_xlabel('DoE individual')
@@ -146,10 +146,10 @@ class Cross_Validation():
             optimisation, 13: 455-492, 1998)
         """
         y_ = np.copy(self.y)
-        if transformation == 'logarithmic':
-            y_ = np.log(y_)
-        elif transformation == 'inverse':
+        if transformation == 'inverse':
             y_ = -(1.0/y_)
+        elif transformation == 'logarithmic':
+            y_ = np.log(y_)
         y_normalised = (y_ - np.min(y_)) / (np.max(y_) -
                                             np.min(y_))
         Kriging_models_i, list_arrays, list_ys, train_list = [], [], [], []
@@ -176,8 +176,8 @@ class Cross_Validation():
             ax1 = fig.add_subplot(1, 2, 1)
             ax1.scatter([i for i in range(1, self.n+1)], self.scvr, alpha=0.5,
                         edgecolor='black', facecolor='b', linewidth=2.)
-            ax1.plot([i for i in range(0, self.n+3)], [3]*(self.n+3), 'r')
-            ax1.plot([i for i in range(0, self.n+3)], [-3]*(self.n+3), 'r')
+            ax1.plot([i for i in range(self.n+3)], [3]*(self.n+3), 'r')
+            ax1.plot([i for i in range(self.n+3)], [-3]*(self.n+3), 'r')
             ax1.set_xlim(0, self.n+2)
             ax1.set_ylim(-4, 4)
             ax1.set_xlabel('DoE individual')

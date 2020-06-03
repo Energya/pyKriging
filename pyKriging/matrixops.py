@@ -90,8 +90,6 @@ class matrixops:
             print(self.SigmaSqr.shape)
             print(self.psi.shape)
             print(Exception,e)
-            pass
-
         SSqr = np.abs(SSqr[0])
         return np.power(SSqr,0.5)[0]
 
@@ -105,7 +103,5 @@ class matrixops:
             SSqr=self.SigmaSqr*(1+self.Lambda-self.psi.T.dot(np.linalg.solve(self.U, np.linalg.solve(self.U.T,self.psi))))
         except Exception as e:
             print(Exception,e)
-            pass
-
         SSqr = np.abs(SSqr[0])
         return np.power(SSqr,0.5)[0]

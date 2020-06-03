@@ -23,7 +23,7 @@ k.snapshot()
 
 
 # Add 10 points based on model error reduction
-for i in range(5):
+for _ in range(5):
     newpoints = k.infill(1, method='error')
     for point in newpoints:
         print('Adding point {}'.format(point))
@@ -32,7 +32,7 @@ for i in range(5):
     k.snapshot()
 
 # Infill ten points based on the expected improvement criterion
-for i in range(5):
+for _ in range(5):
     newpoints = k.infill(1, method='ei')
     for point in newpoints:
         print('Adding point {}'.format(point))

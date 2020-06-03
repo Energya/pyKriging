@@ -137,7 +137,7 @@ class testfunctions():
             for i in range(d):
                 xi = entry[i]
                 new = np.power(xi,4) - 16*np.power(xi,2) + 5*xi
-                sum = sum + new
+                sum += new
 
             y.append(sum/2.)
         return np.array(y)
@@ -155,7 +155,7 @@ class testfunctions():
             for i in range(d):
                 xi = entry[i]
                 new = np.power(xi,4) - 16*np.power(xi,2) + 5*xi
-                sum = sum + new
+                sum += new
 
             y.append(sum/2.)
         return np.array(y)
@@ -207,9 +207,11 @@ class testfunctions():
         :return:
         '''
         y = [0.0] * 1
-        function_sum = 0
-        for i in np.arange(0, len(x)-1):
-            function_sum += (1 - x[i]) ** 2 + 100 * ((x[i + 1] - x[i] ** 2) ** 2)
+        function_sum = sum(
+            (1 - x[i]) ** 2 + 100 * ((x[i + 1] - x[i] ** 2) ** 2)
+            for i in np.arange(0, len(x) - 1)
+        )
+
         y[0] = function_sum
         return y
 
